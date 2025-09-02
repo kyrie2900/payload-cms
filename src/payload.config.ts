@@ -29,8 +29,12 @@ export default buildConfig({
           path: '/custom/analytics',
           Component: '#analytics',
         },
+        scraping: {
+          path: '/custom/scraping',
+          Component: '#scrapingTasks',
+        },
       },
-      afterNavLinks: ['#analyticsNav'],
+      afterNavLinks: ['#analyticsNav', '#scrapingTasksNav'],
     },
   },
   collections: [Users, Media, KolProfiles, KolPosts],
