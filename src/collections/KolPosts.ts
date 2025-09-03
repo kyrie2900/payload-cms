@@ -9,20 +9,47 @@ export const KolPosts: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['id', 'platform', 'platform_post_id', 'view_count', 'publish_time', 'updated_time'],
+    defaultColumns: ['platform', 'platform_post_id', 'title', 'view_count', 'publish_time', 'updated_time'],
   },
   dbName: 'kol_posts',
   // 使用自定义时间字段，禁用 Payload 默认 createdAt/updatedAt
   timestamps: false,
   fields: [
     { name: 'profile_id', type: 'text', required: true },
-    { name: 'platform', type: 'number', required: true },
-    { name: 'platform_post_id', type: 'text', required: true },
+    { 
+      name: 'platform', 
+      type: 'number',
+      required: true,
+      admin: {
+        description: '平台：1=TikTok, 2=YouTube, 3=Instagram',
+        components: {
+          Cell: '#platformCell',
+        },
+      },
+    },
+    { 
+      name: 'platform_post_id', 
+      type: 'text', 
+      required: true,
+      admin: {
+        components: {
+          Cell: '#postIdCell',
+        },
+      },
+    },
 
     { name: 'post_type', type: 'number', defaultValue: 1 },
     { name: 'title', type: 'text' },
     { name: 'description', type: 'textarea' },
-    { name: 'publish_time', type: 'date' },
+    { 
+      name: 'publish_time', 
+      type: 'date',
+      admin: {
+        components: {
+          Cell: '#dateCell',
+        },
+      },
+    },
     { name: 'post_url', type: 'text' },
     { name: 'thumbnail_url', type: 'text' },
     { name: 'video_url', type: 'text' },
@@ -42,12 +69,22 @@ export const KolPosts: CollectionConfig = {
     {
       name: 'created_time',
       type: 'date',
-      admin: { position: 'sidebar' },
+      admin: { 
+        position: 'sidebar',
+        components: {
+          Cell: '#dateCell',
+        },
+      },
     },
     {
       name: 'updated_time',
       type: 'date',
-      admin: { position: 'sidebar' },
+      admin: { 
+        position: 'sidebar',
+        components: {
+          Cell: '#dateCell',
+        },
+      },
     },
   ],
 }

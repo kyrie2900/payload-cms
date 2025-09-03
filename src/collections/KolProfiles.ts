@@ -15,7 +15,7 @@ export const KolProfiles: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'username',
-    defaultColumns: ['id', 'platform', 'platform_user_id', 'username', 'follower_count', 'updated_time'],
+    defaultColumns: ['platform', 'platform_user_id', 'username', 'email', 'follower_count', 'updated_time'],
   },
   // 使用现有表名（Payload v3 支持 dbName，于 Postgres 适配器生效）
   dbName: 'kol_profiles',
@@ -23,12 +23,31 @@ export const KolProfiles: CollectionConfig = {
   timestamps: false,
   // 现有表已经有 bigserial 主键 `id`，无需自定义 id 字段
   fields: [
-    { name: 'platform', type: 'number', required: true },
+    { 
+      name: 'platform', 
+      type: 'number',
+      required: true,
+      admin: {
+        description: '平台：1=TikTok, 2=YouTube, 3=Instagram',
+        components: {
+          Cell: '#platformCell',
+        },
+      },
+    },
     { name: 'platform_user_id', type: 'text', required: true },
-    { name: 'username', type: 'text' },
+    { 
+      name: 'username', 
+      type: 'text',
+      admin: {
+        components: {
+          Cell: '#usernameCell',
+        },
+      },
+    },
     { name: 'display_name', type: 'text' },
     { name: 'description', type: 'textarea' },
     { name: 'avatar_url', type: 'text' },
+    { name: 'email', type: 'email' },
 
     { name: 'follower_count', type: 'number', defaultValue: 0 },
     { name: 'following_count', type: 'number', defaultValue: 0 },
@@ -41,7 +60,15 @@ export const KolProfiles: CollectionConfig = {
     { name: 'total_views', type: 'number' },
 
     { name: 'country', type: 'text' },
-    { name: 'platform_created_date', type: 'date' },
+    { 
+      name: 'platform_created_date', 
+      type: 'date',
+      admin: {
+        components: {
+          Cell: '#dateCell',
+        },
+      },
+    },
     { name: 'banner_url', type: 'text' },
     { name: 'external_links', type: 'json' },
 
@@ -56,12 +83,22 @@ export const KolProfiles: CollectionConfig = {
     {
       name: 'created_time',
       type: 'date',
-      admin: { position: 'sidebar' },
+      admin: { 
+        position: 'sidebar',
+        components: {
+          Cell: '#dateCell',
+        },
+      },
     },
     {
       name: 'updated_time',
       type: 'date',
-      admin: { position: 'sidebar' },
+      admin: { 
+        position: 'sidebar',
+        components: {
+          Cell: '#dateCell',
+        },
+      },
     },
   ],
 }

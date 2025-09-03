@@ -166,12 +166,16 @@ export interface Media {
  */
 export interface KolProfile {
   id: number;
+  /**
+   * 平台：1=TikTok, 2=YouTube, 3=Instagram
+   */
   platform: number;
   platform_user_id: string;
   username?: string | null;
   display_name?: string | null;
   description?: string | null;
   avatar_url?: string | null;
+  email?: string | null;
   follower_count?: number | null;
   following_count?: number | null;
   content_count?: number | null;
@@ -206,6 +210,9 @@ export interface KolProfile {
 export interface KolPost {
   id: number;
   profile_id: string;
+  /**
+   * 平台：1=TikTok, 2=YouTube, 3=Instagram
+   */
   platform: number;
   platform_post_id: string;
   post_type?: number | null;
@@ -376,6 +383,7 @@ export interface KolProfilesSelect<T extends boolean = true> {
   display_name?: T;
   description?: T;
   avatar_url?: T;
+  email?: T;
   follower_count?: T;
   following_count?: T;
   content_count?: T;

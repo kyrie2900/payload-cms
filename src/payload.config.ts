@@ -34,7 +34,10 @@ export default buildConfig({
           Component: '#scrapingTasks',
         },
       },
-      afterNavLinks: ['#analyticsNav', '#scrapingTasksNav'],
+      beforeNavLinks: [
+        '#analyticsNav',
+        '#scrapingTasksNav',
+      ],
     },
   },
   collections: [Users, Media, KolProfiles, KolPosts],

@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import UserListModal from '../../../../components/UserListModal'
 
 interface ScrapingRequest {
   tiktok_influencer_list: string[]
@@ -83,6 +84,13 @@ const ScrapingTasks: React.FC = () => {
   const [instagramUsers, setInstagramUsers] = useState('')
   const [youtubeUsers, setYoutubeUsers] = useState('')
   const [maxVideosPerUser, setMaxVideosPerUser] = useState(5)
+  
+  // Modal states
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: '',
+    users: [] as string[]
+  })
 
   const loadTasks = async (page: number = currentPage) => {
     setLoading(true)
@@ -197,6 +205,22 @@ const ScrapingTasks: React.FC = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     loadTasks(page)
+  }
+
+  const showUserList = (platform: string, users: string[]) => {
+    setModalState({
+      isOpen: true,
+      title: `${platform} 完整用户列表`,
+      users: users
+    })
+  }
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      title: '',
+      users: []
+    })
   }
 
   // 分页组件
@@ -330,7 +354,7 @@ const ScrapingTasks: React.FC = () => {
               <textarea
                 value={tiktokUsers}
                 onChange={(e) => setTiktokUsers(e.target.value)}
-                placeholder="@username1&#10;@username2&#10;@username3"
+                placeholder="username1&#10;username2&#10;username3"
                 rows={6}
                 style={{
                   width: '100%',
@@ -368,7 +392,7 @@ const ScrapingTasks: React.FC = () => {
               <textarea
                 value={youtubeUsers}
                 onChange={(e) => setYoutubeUsers(e.target.value)}
-                placeholder="@channel1&#10;@channel2&#10;@channel3"
+                placeholder="channel1&#10;channel2&#10;channel3"
                 rows={6}
                 style={{
                   width: '100%',
@@ -513,7 +537,7 @@ const ScrapingTasks: React.FC = () => {
                                   ...还有 {task.request_params.tiktok.usernames.length - 3} 个
                                   <button
                                     onClick={() => {
-                                      alert(`TikTok完整用户列表:\n${task.request_params.tiktok!.usernames.map(u => `• ${u}`).join('\n')}`)
+                                      showUserList('TikTok', task.request_params.tiktok!.usernames)
                                     }}
                                     style={{
                                       background: 'none',
@@ -546,7 +570,7 @@ const ScrapingTasks: React.FC = () => {
                                   ...还有 {task.request_params.instagram.usernames.length - 3} 个
                                   <button
                                     onClick={() => {
-                                      alert(`Instagram完整用户列表:\n${task.request_params.instagram!.usernames.map(u => `• ${u}`).join('\n')}`)
+                                      showUserList('Instagram', task.request_params.instagram!.usernames)
                                     }}
                                     style={{
                                       background: 'none',
@@ -579,7 +603,7 @@ const ScrapingTasks: React.FC = () => {
                                   ...还有 {task.request_params.youtube.channel_urls.length - 3} 个
                                   <button
                                     onClick={() => {
-                                      alert(`YouTube完整频道列表:\n${task.request_params.youtube!.channel_urls.map(u => `• ${u}`).join('\n')}`)
+                                      showUserList('YouTube', task.request_params.youtube!.channel_urls)
                                     }}
                                     style={{
                                       background: 'none',
@@ -691,6 +715,14 @@ const ScrapingTasks: React.FC = () => {
         {/* 分页组件 */}
         {totalPages > 1 && <PaginationComponent />}
       </div>
+
+      {/* 用户列表弹窗 */}
+      <UserListModal
+        title={modalState.title}
+        users={modalState.users}
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+      />
     </div>
   )
 }

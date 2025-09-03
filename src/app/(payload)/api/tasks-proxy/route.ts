@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const pageSize = searchParams.get('page_size') || '5'
     
     // 转发请求到真实的后端API
-    const backendUrl = `http://0.0.0.0:8089/tasks?page=${page}&page_size=${pageSize}`
+    const backendUrl = `http://54.218.129.238:8089/tasks?page=${page}&page_size=${pageSize}`
     
     const response = await fetch(backendUrl, {
       method: 'GET',
