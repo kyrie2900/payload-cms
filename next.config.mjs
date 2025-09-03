@@ -12,6 +12,15 @@ const nextConfig = {
 
     return webpackConfig
   },
+  // 配置代理来解决跨域问题
+  async rewrites() {
+    return [
+      {
+        source: '/backend-api/:path*',
+        destination: 'http://54.218.129.238:8089/:path*',
+      },
+    ]
+  },
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

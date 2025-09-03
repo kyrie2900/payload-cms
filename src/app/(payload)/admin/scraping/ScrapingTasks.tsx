@@ -92,10 +92,8 @@ const ScrapingTasks: React.FC = () => {
     users: [] as string[]
   })
 
-  // 后端服务配置
-  const BACKEND_HOST = '54.218.129.238'
-  const BACKEND_PORT = '8089'
-  const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
+  // 使用 Next.js 代理，避免跨域问题
+  const BACKEND_URL = '/backend-api'
 
   const loadTasks = async (page: number = currentPage) => {
     setLoading(true)
