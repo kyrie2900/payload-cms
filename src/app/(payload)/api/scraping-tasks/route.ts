@@ -244,8 +244,10 @@ async function callBackendScrapingService(task: ScrapingTask) {
     task.updated_at = new Date().toISOString()
     tasks.set(task.id, task)
     
-    // TODO: 替换为你的实际后端服务接口URL
-    const BACKEND_SCRAPING_API = process.env.BACKEND_SCRAPING_API || 'http://54.218.129.238:8089/influencer/scrape-process'
+    // 后端服务配置 - 与前端保持一致
+    const BACKEND_HOST = '54.218.129.238'
+    const BACKEND_PORT = '8089'
+    const BACKEND_SCRAPING_API = `http://${BACKEND_HOST}:${BACKEND_PORT}/influencer/scrape-process`
     
     console.log(`🚀 调用后端爬取服务: ${BACKEND_SCRAPING_API}`)
     console.log('请求数据:', JSON.stringify(task.request_data, null, 2))

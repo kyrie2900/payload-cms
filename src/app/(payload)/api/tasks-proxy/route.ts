@@ -7,8 +7,10 @@ export async function GET(request: NextRequest) {
     const page = searchParams.get('page') || '1'
     const pageSize = searchParams.get('page_size') || '5'
     
-    // 转发请求到真实的后端API
-    const backendUrl = `http://54.218.129.238:8089/tasks?page=${page}&page_size=${pageSize}`
+    // 后端服务配置 - 与前端保持一致
+    const BACKEND_HOST = '54.218.129.238'
+    const BACKEND_PORT = '8089'
+    const backendUrl = `http://${BACKEND_HOST}:${BACKEND_PORT}/tasks?page=${page}&page_size=${pageSize}`
     
     const response = await fetch(backendUrl, {
       method: 'GET',

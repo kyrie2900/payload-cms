@@ -92,11 +92,21 @@ const ScrapingTasks: React.FC = () => {
     users: [] as string[]
   })
 
+  // 后端服务配置
+  const BACKEND_HOST = '54.218.129.238'
+  const BACKEND_PORT = '8089'
+  const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
+
   const loadTasks = async (page: number = currentPage) => {
     setLoading(true)
     try {
-      // 通过代理API调用后端接口，避免CORS问题
-      const response = await fetch(`/api/tasks-proxy?page=${page}&page_size=${pageSize}`)
+      // 直接调用后端服务
+      const response = await fetch(`${BACKEND_URL}/tasks?page=${page}&page_size=${pageSize}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       if (response.ok) {
         const data: TaskListResponse = await response.json()
         setTasks(data.items || [])
@@ -139,7 +149,8 @@ const ScrapingTasks: React.FC = () => {
         scrape_time: new Date().toISOString(),
       }
       
-      const response = await fetch('/api/scraping-tasks', {
+      // 直接调用后端服务
+      const response = await fetch(`${BACKEND_URL}/scraping-tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
