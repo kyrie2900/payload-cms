@@ -148,7 +148,7 @@ const ScrapingTasks: React.FC = () => {
       }
       
       // 直接调用后端服务
-      const response = await fetch(`${BACKEND_URL}/scraping-tasks`, {
+      const response = await fetch(`${BACKEND_URL}/influencer/scrape-process`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
