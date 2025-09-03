@@ -33,8 +33,8 @@ const Analytics: React.FC = () => {
       try {
         console.log('开始获取数据...')
         const [pRes, psRes] = await Promise.all([
-          fetch('/api/kol_profiles?limit=1000'),
-          fetch('/api/kol_posts?limit=1000'),
+          fetch('/api/kol_profiles?limit=0'),
+          fetch('/api/kol_posts?limit=0'),
         ])
         
         console.log('API响应状态:', { 
