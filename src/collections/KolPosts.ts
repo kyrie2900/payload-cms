@@ -9,7 +9,7 @@ export const KolPosts: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['platform', 'platform_post_id', 'title', 'view_count', 'publish_time', 'updated_time'],
+    defaultColumns: ['platform', 'thumbnail_url', 'platform_post_id', 'title', 'view_count', 'publish_time', 'updated_time'],
   },
   dbName: 'kol_posts',
   // 使用自定义时间字段，禁用 Payload 默认 createdAt/updatedAt
@@ -51,7 +51,15 @@ export const KolPosts: CollectionConfig = {
       },
     },
     { name: 'post_url', type: 'text' },
-    { name: 'thumbnail_url', type: 'text' },
+    { 
+      name: 'thumbnail_url', 
+      type: 'text',
+      admin: {
+        components: {
+          Cell: '#thumbnailCell',
+        },
+      },
+    },
     { name: 'video_url', type: 'text' },
 
     { name: 'view_count', type: 'number', defaultValue: 0 },

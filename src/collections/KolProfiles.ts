@@ -15,7 +15,7 @@ export const KolProfiles: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'username',
-    defaultColumns: ['platform', 'platform_user_id', 'username', 'email', 'follower_count', 'updated_time'],
+    defaultColumns: ['platform', 'avatar_url', 'username', 'follower_count', 'updated_time'],
   },
   // 使用现有表名（Payload v3 支持 dbName，于 Postgres 适配器生效）
   dbName: 'kol_profiles',
@@ -46,7 +46,15 @@ export const KolProfiles: CollectionConfig = {
     },
     { name: 'display_name', type: 'text' },
     { name: 'description', type: 'textarea' },
-    { name: 'avatar_url', type: 'text' },
+    { 
+      name: 'avatar_url', 
+      type: 'text',
+      admin: {
+        components: {
+          Cell: '#avatarCell',
+        },
+      },
+    },
     { name: 'email', type: 'email' },
 
     { name: 'follower_count', type: 'number', defaultValue: 0 },

@@ -34,13 +34,13 @@ export default buildConfig({
           Component: '#scrapingTasks',
         },
       },
-      beforeNavLinks: [
+      afterNavLinks: [
         '#analyticsNav',
         '#scrapingTasksNav',
       ],
     },
   },
-  collections: [Users, Media, KolProfiles, KolPosts],
+  collections: [Users, KolProfiles, KolPosts],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -8,50 +8,54 @@ const AnalyticsNavLink: React.FC = () => {
   const isActive = pathname?.includes('/custom/analytics')
 
   return (
-    <div style={{ 
-      margin: '0 0 calc(var(--base) / 4) 0'
-    }}>
-      <Link 
-        href="/admin/custom/analytics"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          textDecoration: 'none',
-          color: isActive ? 'var(--theme-text)' : 'var(--theme-text-dim)',
-          fontSize: '13px',
-          fontFamily: 'var(--font-body)',
-          padding: '6px var(--base)',
-          borderRadius: 'var(--style-radius-s)',
-          margin: '0 var(--base)',
-          transition: 'all 150ms ease',
-          fontWeight: isActive ? '600' : '400',
-          backgroundColor: isActive ? 'var(--theme-elevation-100)' : 'transparent',
-          border: '1px solid transparent',
-          minHeight: '32px',
-        }}
-        onMouseEnter={(e) => {
-          if (!isActive) {
-            e.currentTarget.style.backgroundColor = 'var(--theme-elevation-50)'
-            e.currentTarget.style.color = 'var(--theme-text)'
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!isActive) {
-            e.currentTarget.style.backgroundColor = 'transparent'
-            e.currentTarget.style.color = 'var(--theme-text-dim)'
-          }
-        }}
+    <Link 
+      href="/admin/custom/analytics"
+      className="nav-link"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        textDecoration: 'none',
+        color: isActive ? 'var(--theme-text)' : 'var(--theme-text-dim)',
+        fontSize: '13px',
+        fontFamily: 'var(--font-body)',
+        fontWeight: isActive ? '600' : '400',
+        padding: '8px var(--base)',
+        margin: '0 var(--base) 4px var(--base)',
+        borderRadius: 'var(--style-radius-s)',
+        backgroundColor: isActive ? 'var(--theme-elevation-100)' : 'transparent',
+        border: isActive ? '1px solid var(--theme-elevation-200)' : '1px solid transparent',
+        transition: 'all 150ms ease',
+        position: 'relative',
+      }}
+      onMouseEnter={(e) => {
+        if (!isActive) {
+          e.currentTarget.style.backgroundColor = 'var(--theme-elevation-50)'
+          e.currentTarget.style.borderColor = 'var(--theme-elevation-150)'
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!isActive) {
+          e.currentTarget.style.backgroundColor = 'transparent'
+          e.currentTarget.style.borderColor = 'transparent'
+        }
+      }}
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ marginRight: '8px', opacity: 0.7 }}
       >
-        <span style={{ 
-          marginRight: '8px', 
-          fontSize: '14px',
-          opacity: 0.8,
-          width: '14px',
-          textAlign: 'center'
-        }}>📊</span>
-        数据分析
-      </Link>
-    </div>
+        <path d="M3 3v18h18" />
+        <path d="m19 9-5 5-4-4-3 3" />
+      </svg>
+      数据分析
+    </Link>
   )
 }
 
