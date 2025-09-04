@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const pageSize = searchParams.get('page_size') || '5'
     
     // 后端服务配置 - 与前端保持一致
-    const BACKEND_HOST = '54.218.129.238'
+    const BACKEND_HOST = '44.250.41.129'
     const BACKEND_PORT = '8089'
     const backendUrl = `http://${BACKEND_HOST}:${BACKEND_PORT}/tasks?page=${page}&page_size=${pageSize}`
     

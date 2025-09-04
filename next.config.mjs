@@ -16,7 +16,7 @@ const nextConfig = {
   async rewrites() {
     // 根据环境或请求动态选择后端地址
     const isLocalhost = process.env.NODE_ENV === 'development'
-    const backendHost = isLocalhost ? '0.0.0.0' : '54.218.129.238'
+    const backendHost = isLocalhost ? '0.0.0.0' : '44.250.41.129'
     
     return [
       {

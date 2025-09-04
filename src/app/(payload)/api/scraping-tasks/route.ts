@@ -245,7 +245,7 @@ async function callBackendScrapingService(task: ScrapingTask) {
     tasks.set(task.id, task)
     
     // 后端服务配置 - 与前端保持一致
-    const BACKEND_HOST = '54.218.129.238'
+    const BACKEND_HOST = '44.250.41.129'
     const BACKEND_PORT = '8089'
     const BACKEND_SCRAPING_API = `http://${BACKEND_HOST}:${BACKEND_PORT}/influencer/scrape-process`
     
