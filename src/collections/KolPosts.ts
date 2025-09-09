@@ -7,6 +7,13 @@ export const KolPosts: CollectionConfig = {
     singular: 'KOL Post',
     plural: 'KOL Posts',
   },
+  access: {
+    // 所有用户都可以访问KOL Posts
+    create: () => true,
+    read: () => true,
+    update: () => true,
+    delete: () => true,
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['platform', 'thumbnail_url', 'platform_post_id', 'title', 'view_count', 'publish_time', 'updated_time'],
