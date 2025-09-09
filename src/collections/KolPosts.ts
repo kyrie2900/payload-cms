@@ -4,8 +4,8 @@ import type { CollectionConfig } from 'payload'
 export const KolPosts: CollectionConfig = {
   slug: 'kol_posts',
   labels: {
-    singular: 'KOL Post',
-    plural: 'KOL Posts',
+    singular: 'Influencer post',
+    plural: 'Influencer posts',
   },
   access: {
     // 所有用户都可以访问KOL Posts

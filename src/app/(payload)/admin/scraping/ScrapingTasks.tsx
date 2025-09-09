@@ -8,6 +8,7 @@ interface ScrapingRequest {
   youtube_influencer_list: string[]
   max_videos_per_user: number
   scrape_time: string
+  email: string
 }
 
 // 后端返回的任务数据结构
@@ -15,6 +16,7 @@ interface BackendTask {
   task_id: string
   task_name: string
   task_description: string
+  user_id: string
   status: 'pending' | 'running' | 'completed' | 'failed'
   request_params: {
     config: {
@@ -72,6 +74,7 @@ const ScrapingTasks: React.FC = () => {
   const [tasks, setTasks] = useState<BackendTask[]>([])
   const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [currentUser, setCurrentUser] = useState<{ email: string } | null>(null)
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1)
@@ -119,9 +122,59 @@ const ScrapingTasks: React.FC = () => {
     }
   }
 
-  // 页面初次加载时查询任务列表
+  // 获取当前登录用户信息
+  const getCurrentUser = async (): Promise<{ email: string } | null> => {
+    try {
+      console.log('正在获取用户信息...')
+      const response = await fetch('/api/users/me')
+      console.log('用户信息接口响应状态:', response.status)
+      
+      if (response.ok) {
+        const user = await response.json()
+        console.log('获取到的用户数据:', user)
+        console.log('用户数据类型:', typeof user)
+        console.log('用户数据是否为空:', Object.keys(user).length === 0)
+        
+        // 检查是否返回了空对象，这通常意味着用户未登录
+        if (!user || Object.keys(user).length === 0) {
+          console.error('用户未登录或session已过期')
+          alert('登录状态已过期，请重新登录')
+          // 重定向到登录页面
+          window.location.href = '/admin/login'
+          return null
+        }
+        
+        if (user.user) {
+          const userInfo = { email: user.user.email }
+          setCurrentUser(userInfo)
+          return userInfo
+        } else {
+          console.error('用户数据中没有email字段:', user)
+          console.error('可用的用户字段:', Object.keys(user))
+          return null
+        }
+      } else {
+        console.error('获取用户信息失败，状态码:', response.status)
+        const errorText = await response.text()
+        console.error('错误详情:', errorText)
+        
+        // 如果是401或403，可能是未登录或权限问题
+        if (response.status === 401 || response.status === 403) {
+          alert('登录状态已过期，请重新登录')
+          window.location.href = '/admin/login'
+        }
+        return null
+      }
+    } catch (error) {
+      console.error('获取用户信息失败:', error)
+      return null
+    }
+  }
+
+  // 页面初次加载时查询任务列表和用户信息
   useEffect(() => {
     loadTasks(1) // 加载第1页的任务列表
+    getCurrentUser() // 获取当前用户信息
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const submitScrapingTask = async (e: React.FormEvent) => {
@@ -139,12 +192,30 @@ const ScrapingTasks: React.FC = () => {
 
     setSubmitting(true)
     try {
+      // 检查是否获取到用户信息
+      let userEmail = currentUser?.email
+      if (!userEmail) {
+        console.log('当前用户状态:', currentUser)
+        console.log('尝试重新获取用户信息...')
+        // 尝试重新获取用户信息
+        const freshUser = await getCurrentUser()
+        if (freshUser?.email) {
+          userEmail = freshUser.email
+        } else {
+          alert('无法获取用户信息，请刷新页面或重新登录')
+          return
+        }
+      }
+
+      console.log('使用的用户email:', userEmail)
+      
       const requestData: ScrapingRequest = {
         tiktok_influencer_list: tiktokList,
         instagram_influencer_list: instagramList,
         youtube_influencer_list: youtubeList,
         max_videos_per_user: maxVideosPerUser,
         scrape_time: new Date().toISOString(),
+        email: userEmail,
       }
       
       // 直接调用后端服务
@@ -491,6 +562,7 @@ const ScrapingTasks: React.FC = () => {
               <thead>
                 <tr style={{ borderBottom: '1px solid #E5E7EB' }}>
                   <th style={{ textAlign: 'left', padding: '8px 4px', fontWeight: 'medium' }}>任务ID</th>
+                  <th style={{ textAlign: 'left', padding: '8px 4px', fontWeight: 'medium' }}>发起者</th>
                   <th style={{ textAlign: 'left', padding: '8px 4px', fontWeight: 'medium' }}>平台统计</th>
                   <th style={{ textAlign: 'left', padding: '8px 4px', fontWeight: 'medium' }}>请求参数</th>
                   <th style={{ textAlign: 'left', padding: '8px 4px', fontWeight: 'medium' }}>状态</th>
@@ -506,6 +578,11 @@ const ScrapingTasks: React.FC = () => {
                     <td style={{ padding: '12px 4px', fontSize: 14 }}>
                       <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#374151', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {task.task_id}
+                      </div>
+                    </td>
+                    <td style={{ padding: '12px 4px', fontSize: 14 }}>
+                      <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#6B7280', maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {task.user_id}
                       </div>
                     </td>
                     <td style={{ padding: '12px 4px', fontSize: 14 }}>

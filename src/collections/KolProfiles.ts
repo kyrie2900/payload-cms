@@ -4,8 +4,8 @@ import type { CollectionConfig } from 'payload'
 export const KolProfiles: CollectionConfig = {
   slug: 'kol_profiles',
   labels: {
-    singular: 'KOL Profile',
-    plural: 'KOL Profiles',
+    singular: 'Influencer profile',
+    plural: 'Influencer profiles',
   },
   access: {
     create: () => true,
