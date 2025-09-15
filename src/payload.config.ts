@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { KolProfiles } from './collections/KolProfiles'
 import { KolPosts } from './collections/KolPosts'
+import { KolMasterProfiles } from './collections/KolMasterProfiles'
 // 自定义 Admin 组件通过 importMap 提供，配置里使用别名字符串
 
 const filename = fileURLToPath(import.meta.url)
@@ -40,7 +41,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Users, KolProfiles, KolPosts],
+  collections: [Users, KolProfiles, KolPosts, KolMasterProfiles],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

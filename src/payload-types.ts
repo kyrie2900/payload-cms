@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     kol_profiles: KolProfile;
     kol_posts: KolPost;
+    kol_master_profiles: KolMasterProfile;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +80,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     kol_profiles: KolProfilesSelect<false> | KolProfilesSelect<true>;
     kol_posts: KolPostsSelect<false> | KolPostsSelect<true>;
+    kol_master_profiles: KolMasterProfilesSelect<false> | KolMasterProfilesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -248,6 +250,65 @@ export interface KolPost {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kol_master_profiles".
+ */
+export interface KolMasterProfile {
+  id: number;
+  /**
+   * 用户在tiktok上的userId
+   */
+  tiktok_id?: string | null;
+  /**
+   * 用户在youtube上的userId
+   */
+  youtube_id?: string | null;
+  /**
+   * 用户在ig上的userId
+   */
+  instagram_id?: string | null;
+  /**
+   * 用户在tt上用户名
+   */
+  tiktok_name?: string | null;
+  /**
+   * 用户在youtube上用户名
+   */
+  youtube_name?: string | null;
+  /**
+   * 用户在ig上用户名
+   */
+  instagram_name?: string | null;
+  /**
+   * 邮箱
+   */
+  email?: string | null;
+  /**
+   * 运营人员的评价
+   */
+  comment?: string | null;
+  /**
+   * 关联的modelId，默认为空
+   */
+  model_id?: string | null;
+  /**
+   * 运营人邮箱
+   */
+  ops_owner?: string | null;
+  /**
+   * 运行阶段
+   */
+  stage?: string | null;
+  /**
+   * 创建时间
+   */
+  created_time?: string | null;
+  /**
+   * 更新时间
+   */
+  updated_time?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -264,6 +325,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'kol_posts';
         value: number | KolPost;
+      } | null)
+    | ({
+        relationTo: 'kol_master_profiles';
+        value: number | KolMasterProfile;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -385,6 +450,25 @@ export interface KolPostsSelect<T extends boolean = true> {
   music_meta?: T;
   child_posts?: T;
   source_file?: T;
+  created_time?: T;
+  updated_time?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kol_master_profiles_select".
+ */
+export interface KolMasterProfilesSelect<T extends boolean = true> {
+  tiktok_id?: T;
+  youtube_id?: T;
+  instagram_id?: T;
+  tiktok_name?: T;
+  youtube_name?: T;
+  instagram_name?: T;
+  email?: T;
+  comment?: T;
+  model_id?: T;
+  ops_owner?: T;
+  stage?: T;
   created_time?: T;
   updated_time?: T;
 }
